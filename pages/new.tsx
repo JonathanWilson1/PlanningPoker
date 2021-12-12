@@ -2,6 +2,7 @@ import Router from "next/router";
 import { v4 as uuidv4 } from "uuid";
 
 import page from "./404";
+import "antd/dist/antd.css";
 
 page.getInitialProps = async ({ res }) => {
   const uuid = uuidv4();

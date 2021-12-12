@@ -8,44 +8,29 @@ import {
 } from "react";
 
 import SocketContext from "../contexts/socket/SocketContext";
+import { Card, Button, Row, Col } from "antd";
 
 export const SendTextForm: FC = () => {
   const socket = useContext(SocketContext);
-  const [message, setMessage] = useState<string>("");
 
-  /**
-   * say something
-   */
-  const handleText = useCallback(() => {
-    if (!socket || message.length <= 0) {
-      return;
-    }
-    socket.text(message);
-    setMessage("");
-  }, [socket, message]);
+  const selectNumber = (test) => {
+    if (!socket || test.length <= 0) { return; }
+    socket.text(test);
+    console.log('this is:', test);
+  }
 
-  /**
-   * handle form submission (call text)
-   */
-  const handleSubmit = useCallback(
-    (ev: FormEvent<HTMLFormElement>) => {
-      ev.preventDefault();
-      handleText();
-    },
-    [handleText]
-  );
-
-  /**
-   * update text field
-   */
-  const handleChange = useCallback((ev: ChangeEvent<HTMLInputElement>) => {
-    setMessage(ev.target.value);
-  }, []);
+  const style = { background: '#0092ff', margin: '5px 5px', height: 200, width: '100%', fontSize: 60 };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="text" onChange={handleChange} value={message} />
-      <button onClick={handleText}>say</button>
-    </form>
+    <Row>
+      {[0,1,2,3,5, 8, 13, 21, 34, 55, 89].map(function(object, i){
+      return <Col>
+                <Button style={style} onClick={() => selectNumber(object)}>
+                      {object}
+                </Button>
+              </Col>
+       })}
+    </Row>
+
   );
 };

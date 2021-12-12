@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { UserProfileProvider } from "../../../components/contexts/profile/UserProfileProvider";
 import SocketProvider from "../../../components/contexts/socket/SocketProvider";
 import { Body } from "../../../components/rooms/Body";
+import "antd/dist/antd.css";
 
 const page: NextPage = () => {
   const [roomId, setRoomId] = useState<string>(null);

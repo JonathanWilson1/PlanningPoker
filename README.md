@@ -1,10 +1,8 @@
-# nextjs-socketio-chat-example
+# PlanningPoker
 
-A simple chat using Socket.io and Next.js, written in pure TypeScript.
+A Agile Planning poker website using Socket.io and Next.js, written in pure TypeScript.
 
 ## Overview
-
-Demo site: https://nextjs-socketio-chat-example.herokuapp.com/
 
 - `components/`: React components
 - `pages/`: Next.js pages
@@ -32,5 +30,3 @@ npm run build:all
 ```
 
 ---
-
-(c) Arch Inc., 2019-2020.

@@ -1,5 +1,5 @@
 {
-  "name": "nextjs-socketio-chat-example",
+  "name": "PlanningPoker",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arch-inc/nextjs-socketio-chat-example.git"
+    "url": "git@github.com:JonathanWilson1/PlanningPoker.git"
   },
   "keywords": [
     "next",
@@ -28,15 +28,15 @@
     "socket.io",
     "chat"
   ],
-  "author": "Jun Kato <i@junkato.jp> (https://junkato.jp)",
+  "author": "Jonathan Wilson",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/arch-inc/nextjs-socketio-chat-example/issues"
+    "url": "https://github.com/JonathanWilson1/PlanningPoker/issues"
   },
-  "homepage": "https://github.com/arch-inc/nextjs-socketio-chat-example#readme",
-  "description": "A simple chat using Socket.io and Next.js, written in pure TypeScript",
+  "homepage": "https://github.com/JonathanWilson1/PlanningPoker#readme",
+  "description": "An Agile Planning poker website using Socket.io and Next.js, written in pure TypeScript.",
   "engines": {
-    "node": "12.x"
+    "node": "16.x"
   },
   "devDependencies": {
     "@types/react": "^16.9.44",
@@ -52,9 +52,10 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "next": "^9.5.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "antd": "^4.17.3",
+    "next": "^11.1.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
     "ua-parser-js": "^0.7.21",
