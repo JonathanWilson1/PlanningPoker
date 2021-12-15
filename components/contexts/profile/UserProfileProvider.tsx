@@ -1,9 +1,11 @@
 import { FC, useState, useEffect, useMemo } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 import { UserProfileIface } from "../../../shared/UserProfileIface";
 import UserProfileContext from "./UserProfileContext";
 
 export const UserProfileProvider: FC = ({ children }) => {
+  const [id] = useState<string>(uuidv4());
   const [ua, setUa] = useState<IUAParser.IResult>(null);
   const [name, setName] = useState<string>(null);
 
@@ -24,6 +26,7 @@ export const UserProfileProvider: FC = ({ children }) => {
 
   const data: UserProfileIface = useMemo(
     () => ({
+      id,
       ua,
       get name() {
         return name;
@@ -33,7 +36,7 @@ export const UserProfileProvider: FC = ({ children }) => {
         setName(val);
       },
     }),
-    [ua, name]
+    [id, ua, name]
   );
 
   return (

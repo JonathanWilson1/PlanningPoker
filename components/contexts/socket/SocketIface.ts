@@ -11,4 +11,5 @@ export interface SocketIface {
   join(roomId: string): void;
   leave(): void;
   text(message: string): void;
+  card(profile: UserProfileIface, card: string): void;
 }

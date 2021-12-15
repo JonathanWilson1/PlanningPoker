@@ -7,15 +7,18 @@ import {
   FormEvent,
 } from "react";
 
+import UserProfileContext from "../contexts/profile/UserProfileContext";
 import SocketContext from "../contexts/socket/SocketContext";
 import { Card, Button, Row, Col } from "antd";
 
 export const SendTextForm: FC = () => {
   const socket = useContext(SocketContext);
+  const profile = useContext(UserProfileContext);
 
   const selectNumber = (test) => {
     if (!socket || test.length <= 0) { return; }
     socket.text(test);
+    socket.card(profile, test);
     console.log('this is:', test);
   }
 

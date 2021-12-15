@@ -2,10 +2,14 @@ import { Server, Socket } from "socket.io";
 import { UserProfileIface } from "../shared/UserProfileIface";
 import { getRoomName } from "./getRoomName";
 import { isRoomName } from "./isRoomName";
+import { getCardKey } from "./getCardKey";
 import { TextIface } from "../shared/TextIface";
 
 export function createSocketHandler(server: Server) {
+  let cards: { [key: string]: {[key: string]: string} } = {};
+
   return function socketHandler(socket: Socket) {
+
     /**
      * somebody is leaving the session
      */
@@ -88,46 +92,26 @@ export function createSocketHandler(server: Server) {
     }
 
     /**
-     * somebody sent logs
+     * somebody sent card
      */
-    function onLogs(socketId: string, logs: TextIface[]) {
-      server.to(socketId).emit("logs-ack", logs);
+    function onCard(roomId: string, profile: UserProfileIface, card: string) {
+  
+      cards[getRoomName(roomId)][profile.id] = card;
+      socket.to(getRoomName(roomId)).emit("card-update", profile, card);
       console.log(
-        "somebody sent",
-        Array.isArray(logs) ? logs.length : 0,
-        "logs to",
-        socketId,
-        "sent from",
-        socket.id
-      );
-    }
-
-    /**
-     * somebody said something
-     * @param roomId - room id
-     * @param message - text message
-     */
-    function onText(roomId: string, message: string) {
-      server.to(getRoomName(roomId)).emit("text", {
-        message,
-        sender: socket.id,
-        time: Date.now(),
-      } as TextIface);
-      console.log(
-        "somebody said",
-        message,
-        "in",
+        "somebody updated a card",
         roomId,
-        "sent from",
-        socket.id
+        profile,
+        card,
+        "Cards: ",
+        cards
       );
     }
 
     socket.on("disconnecting", onDisconnecting);
     socket.on("hello", onHello);
     socket.on("hello-ack", onHelloAck);
-    socket.on("text", onText);
-    socket.on("logs", onLogs);
     socket.on("bye", onBye);
+    socket.on("card", onCard);
   };
 }

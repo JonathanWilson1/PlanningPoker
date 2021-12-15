@@ -212,6 +212,17 @@ const SocketProvider: FC = ({ children }) => {
     [socket, roomId]
   );
 
+  const card = useCallback(
+    (profile: UserProfileIface, card: string) => {
+      if (!socket || !roomId) {
+        return;
+      }
+      socket.emit("card", roomId, myProfile, card);
+      console.log("[sent] card", profile, card);
+    },
+    [socket, roomId]
+  );
+
   const data: SocketIface = Object.freeze({
     roomId,
     socket,
@@ -220,6 +231,7 @@ const SocketProvider: FC = ({ children }) => {
     join,
     leave,
     text,
+    card,
   });
 
   return (

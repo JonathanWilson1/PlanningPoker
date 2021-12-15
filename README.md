@@ -1,6 +1,6 @@
 # PlanningPoker
 
-A Agile Planning poker website using Socket.io and Next.js, written in pure TypeScript.
+An Agile Planning poker website using Socket.io and Next.js, written in pure TypeScript.
 
 ## Overview
 
