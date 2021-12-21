@@ -13,8 +13,7 @@ const SocketProvider: FC = ({ children }) => {
   const [socket, setSocket] = useState<typeof Socket>(null);
   const [roomId, setRoomId] = useState<string>(null);
   const myProfile = useContext(UserProfileContext);
-  const [roomMembers, setRoomMembers] = useState<RoomMembersIface>(null);
-  const [textLogs, setTextLogs] = useState<TextIface[]>(null);
+  const [roomCards, setRoomCards] = useState<string>([]);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -25,10 +24,6 @@ const SocketProvider: FC = ({ children }) => {
     // connect to Socket.io server
     const s = SocketIO();
     setSocket(s);
-
-    // initialize state
-    setRoomMembers({});
-    setTextLogs([]);
 
     return () => {
       console.log("[unmounted]");
@@ -51,133 +46,75 @@ const SocketProvider: FC = ({ children }) => {
       socket.once("reconnect", () => {
         console.log("[reconnected]");
         setSocket(socket);
-        setRoomMembers({});
+        setRoomCards([]);
         join(roomId);
       });
     }
 
-    /**
-     * somebody joined this session and said hello
-     * @param profile
-     * @param socketId
-     */
-    function hello(profile: UserProfileIface, socketId: string) {
-      console.log("[received] hello", profile, "from", socketId);
-      const cs = Object.assign({}, roomMembers);
-      cs[socketId] = {
-        profile,
-      };
-      setRoomMembers(cs);
-      socket.emit("hello-ack", roomId, myProfile);
-    }
+    // /**
+    //  * somebody joined this session and said hello
+    //  * @param profile
+    //  * @param socketId
+    //  */
+    // function hello(profile: UserProfileIface, socketId: string) {
+    //   console.log("[received] hello", profile, "from", socketId);
+    //   const cs = Object.assign({}, roomMembers);
+    //   cs[socketId] = {
+    //     profile,
+    //   };
+    //   setRoomMembers(cs);
+    //   socket.emit("hello-ack", roomId, myProfile);
+    // }
+    //
+    // /**
+    //  * somebody is leaving this session
+    //  * @param socketId somebody's socket id
+    //  */
+    // function bye(socketId: string) {
+    //   console.log(
+    //     "[received] bye from",
+    //     socketId,
+    //     "exists?",
+    //     !!roomMembers[socketId]
+    //   );
+    //   if (roomMembers[socketId]) {
+    //     const cs = Object.assign({}, roomMembers);
+    //     delete cs[socketId];
+    //     setRoomMembers(cs);
+    //   }
+    // }
 
     /**
-     * somebody responded to my greeting
-     * @param profile somebody
+     * A card has been updated
      * @param socketId somebody's socket id
      */
-    function helloAck(profile: UserProfileIface, socketId: string) {
-      console.log("[received] hello-ack", profile, "from", socketId);
-      const cs = Object.assign({}, roomMembers);
-      cs[socketId] = {
-        profile,
-      };
-      setRoomMembers(cs);
-    }
-
-    /**
-     * somebody is leaving this session
-     * @param socketId somebody's socket id
-     */
-    function bye(socketId: string) {
+    function cardUpdate(cards: []) {
       console.log(
-        "[received] bye from",
-        socketId,
-        "exists?",
-        !!roomMembers[socketId]
+        "[received] cardupdate ",
+        "cards:",
+        cards
       );
-      if (roomMembers[socketId]) {
-        const cs = Object.assign({}, roomMembers);
-        delete cs[socketId];
-        setRoomMembers(cs);
-      }
+
+      setRoomCards(cards);
+      // if (roomMembers[socketId]) {
+      //   const cs = Object.assign({}, roomMembers);
+      //   delete cs[socketId];
+      //   setRoomMembers(cs);
+      // }
     }
 
     socket.on("disconnect", disconnect);
-    socket.on("hello", hello);
-    socket.on("hello-ack", helloAck);
-    socket.on("bye", bye);
+    // socket.on("hello", hello);
+    // socket.on("bye", bye);
+    socket.on("card-update", cardUpdate);
 
     return () => {
-      socket.off("hello", hello);
-      socket.off("hello-ack", helloAck);
-      socket.off("bye", bye);
+      socket.off("disconnect", disconnect);
+      // socket.off("hello", hello);
+      // socket.off("bye", bye);
+      socket.off("card-update", cardUpdate);
     };
-  }, [socket, myProfile, roomId, roomMembers]);
-
-  useEffect(() => {
-    if (!socket) return;
-
-    /**
-     * somebody sent a message
-     */
-    function text(data: TextIface) {
-      const logs = textLogs.slice();
-      logs.push(data);
-      setTextLogs(logs);
-    }
-
-    /**
-     * somebody requested logs
-     */
-    function logs(userName: string) {
-      socket.emit("logs", userName, textLogs);
-    }
-
-    /**
-     * somebody sent logs
-     */
-    function logsAck(source: TextIface[]) {
-      const merged: TextIface[] = [];
-      const target = textLogs.slice();
-      while (source.length > 0 || target.length > 0) {
-        // insert the rest
-        if (source.length <= 0) {
-          merged.push(target.shift());
-          continue;
-        } else if (target.length <= 0) {
-          merged.push(source.shift());
-          continue;
-        }
-
-        // insert earlier log
-        let s = source[0],
-          t = target[0];
-        if (s.time > t.time) {
-          merged.push(target.shift());
-          continue;
-        } else if (s.time < t.time) {
-          merged.push(source.shift());
-          continue;
-        }
-
-        // insert either one (same time = duplicate)
-        merged.push(source.shift());
-        target.shift();
-      }
-      setTextLogs(merged);
-    }
-
-    socket.on("text", text);
-    socket.on("logs", logs);
-    socket.on("logs-ack", logsAck);
-
-    return () => {
-      socket.off("text", text);
-      socket.off("logs", logs);
-      socket.off("logs-ack", logsAck);
-    };
-  }, [socket, roomId, textLogs]);
+  }, [socket, myProfile, roomId, roomCards]);
 
   const join = useCallback(
     (roomId: string) => {
@@ -185,7 +122,7 @@ const SocketProvider: FC = ({ children }) => {
         return;
       }
       setRoomId(roomId);
-      setTextLogs([]);
+      setRoomCards([]);
       socket.emit("hello", roomId, myProfile);
       console.log("[sent] hello in", roomId);
     },
@@ -197,20 +134,9 @@ const SocketProvider: FC = ({ children }) => {
       socket.emit("bye", roomId);
       console.log("[sent] bye in", roomId);
     }
-    setRoomMembers({});
+    setRoomCards([]);
     setRoomId(null);
-    setTextLogs([]);
   }, [socket, roomId]);
-
-  const text = useCallback(
-    (message: string) => {
-      if (!socket || !roomId) {
-        return;
-      }
-      socket.emit("text", roomId, message);
-    },
-    [socket, roomId]
-  );
 
   const card = useCallback(
     (profile: UserProfileIface, card: string) => {
@@ -226,11 +152,9 @@ const SocketProvider: FC = ({ children }) => {
   const data: SocketIface = Object.freeze({
     roomId,
     socket,
-    roomMembers,
-    textLogs,
+    roomCards,
     join,
     leave,
-    text,
     card,
   });
 

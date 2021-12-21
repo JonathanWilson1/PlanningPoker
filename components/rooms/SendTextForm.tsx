@@ -17,9 +17,7 @@ export const SendTextForm: FC = () => {
 
   const selectNumber = (test) => {
     if (!socket || test.length <= 0) { return; }
-    socket.text(test);
     socket.card(profile, test);
-    console.log('this is:', test);
   }
 
   const style = { background: '#0092ff', margin: '5px 5px', height: 200, width: '100%', fontSize: 60 };

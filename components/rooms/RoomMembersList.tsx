@@ -14,10 +14,9 @@ export const RoomMembersList: FC = () => {
   return (
     <section>
       <Row>
-        <Col><Card style={styleUser}>{profile.name}</Card></Col>
         {
-          Object.values(socket.roomMembers).map(function(user) {
-            return <Col><Card style={style}>{user.profile.name}</Card></Col>
+          Object.values(socket.roomCards).map(function(user) {
+            return <Col><Card style={style}>{user.userName}-{user.card}</Card></Col>
           })
         }
       </Row>

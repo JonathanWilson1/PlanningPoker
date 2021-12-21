@@ -2,14 +2,13 @@ import { Server, Socket } from "socket.io";
 import { UserProfileIface } from "../shared/UserProfileIface";
 import { getRoomName } from "./getRoomName";
 import { isRoomName } from "./isRoomName";
-import { getCardKey } from "./getCardKey";
+import Database from "./database";
 import { TextIface } from "../shared/TextIface";
 
-export function createSocketHandler(server: Server) {
-  let cards: { [key: string]: {[key: string]: string} } = {};
+export async function createSocketHandler(server: Server) {
+  let database = await Database();
 
   return function socketHandler(socket: Socket) {
-
     /**
      * somebody is leaving the session
      */
@@ -18,7 +17,7 @@ export function createSocketHandler(server: Server) {
       Object.keys(socket.rooms)
         .filter(isRoomName)
         .forEach((roomName) => {
-          socket.to(roomName).emit("bye", socket.id);
+          onBye(roomName)
           console.log(
             "[disconnecting] somebody is leaving the room",
             roomName,
@@ -33,42 +32,14 @@ export function createSocketHandler(server: Server) {
      * @param roomId - room id
      * @param profile - user profile
      */
-    function onHello(roomId: string, profile: UserProfileIface) {
+    async function onHello(roomId: string, profile: UserProfileIface) {
       const roomName = getRoomName(roomId);
-
-      // request to send text logs
-      const room = server.sockets.adapter.rooms[roomName];
-      if (room) {
-        const users = Object.keys(room.sockets);
-        if (users.length > 0) {
-          server.to(users[0]).emit("logs", socket.id);
-        }
-      }
-
       socket.join(roomName, () => {
-        // broadcast "hello" message to room members
-        socket.to(roomName).emit("hello", profile, socket.id);
+        onCard(roomId, profile, "")
       });
 
       console.log(
-        "somebody joined this session and said hello",
-        roomId,
-        profile,
-        "sent from",
-        socket.id
-      );
-    }
-
-    /**
-     * somebody responded to one's greeting
-     * @param roomId - room id
-     * @param profile - user profile
-     */
-    function onHelloAck(roomId: string, profile: UserProfileIface) {
-      // broadcast "hello-ack" message to room members
-      socket.to(getRoomName(roomId)).emit("hello-ack", profile, socket.id);
-      console.log(
-        "somebody responded to one's greeting",
+        "somebody joined this session and sent card update",
         roomId,
         profile,
         "sent from",
@@ -80,9 +51,13 @@ export function createSocketHandler(server: Server) {
      * somebody is leaving the room
      * @param roomId - room id
      */
-    function onBye(roomId: string) {
-      socket.to(getRoomName(roomId)).emit("bye", socket.id);
+    async function onBye(roomId: string) {
       socket.leave(getRoomName(roomId));
+      database.removeCard(roomId, socket.id);
+
+      const roomName = getRoomName(roomId);
+      const roomsCards = await database.allCardsInRoom(roomName);
+      socket.in(getRoomName(roomId)).emit("card-update", roomsCards);
       console.log(
         "somebody is leaving the room",
         roomId,
@@ -94,23 +69,26 @@ export function createSocketHandler(server: Server) {
     /**
      * somebody sent card
      */
-    function onCard(roomId: string, profile: UserProfileIface, card: string) {
-  
-      cards[getRoomName(roomId)][profile.id] = card;
-      socket.to(getRoomName(roomId)).emit("card-update", profile, card);
+    async function onCard(roomId: string, profile: UserProfileIface, card: string) {
+      const roomName = getRoomName(roomId);
+      database.addCard(roomName, socket.id, profile.name, card);
+
+      const roomsCards = await database.allCardsInRoom(roomName);
+      socket.in(getRoomName(roomId)).emit("card-update", roomsCards);
+
       console.log(
         "somebody updated a card",
         roomId,
         profile,
+        "Card: ",
         card,
-        "Cards: ",
-        cards
+        "Rooms Cards",
+        roomsCards
       );
     }
 
     socket.on("disconnecting", onDisconnecting);
     socket.on("hello", onHello);
-    socket.on("hello-ack", onHelloAck);
     socket.on("bye", onBye);
     socket.on("card", onCard);
   };

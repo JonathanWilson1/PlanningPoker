@@ -6,10 +6,8 @@ import { TextIface } from "../../../shared/TextIface";
 export interface SocketIface {
   readonly socket: typeof Socket;
   readonly roomId: string;
-  readonly roomMembers: RoomMembersIface;
-  readonly textLogs: TextIface[];
+  readonly roomCards: string[];
   join(roomId: string): void;
   leave(): void;
-  text(message: string): void;
   card(profile: UserProfileIface, card: string): void;
 }

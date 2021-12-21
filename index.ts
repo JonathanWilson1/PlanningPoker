@@ -34,7 +34,7 @@ nextApp
     const socketHandler = createSocketHandler(socketServer);
     const requestHandler = createRequestHandler(socketServer);
     socketServer.engine["generateId"] = generateUserName;
-    socketServer.on("connection", socketHandler);
+    socketServer.on("connection", await socketHandler);
 
     // start listening
     httpServer.listen(port, () => {
