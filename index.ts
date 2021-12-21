@@ -1,6 +1,6 @@
 import next from "next";
 import { Server } from "http";
-import io from "socket.io";
+import { Server as SocketServer } from "socket.io";
 import path from "path";
 import fs from "fs";
 
@@ -30,7 +30,7 @@ nextApp
     });
 
     // create Socket.io server
-    const socketServer = io(httpServer);
+    const socketServer = new SocketServer(httpServer);
     const socketHandler = createSocketHandler(socketServer);
     const requestHandler = createRequestHandler(socketServer);
     socketServer.engine["generateId"] = generateUserName;

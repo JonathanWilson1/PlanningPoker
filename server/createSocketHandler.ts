@@ -34,9 +34,8 @@ export async function createSocketHandler(server: Server) {
      */
     async function onHello(roomId: string, profile: UserProfileIface) {
       const roomName = getRoomName(roomId);
-      socket.join(roomName, () => {
-        onCard(roomId, profile, "")
-      });
+      socket.join(roomName);
+      onCard(roomId, profile, "");
 
       console.log(
         "somebody joined this session and sent card update",

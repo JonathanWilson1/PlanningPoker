@@ -2,7 +2,10 @@ import sqlite3 from 'sqlite3'
 import { open } from 'sqlite'
 
 async function Database () {
-  let db = await open('./Database.db');
+  let db = await open({
+      filename: './Database.db',
+      driver: sqlite3.Database
+    });
   init();
 
   function init() {
