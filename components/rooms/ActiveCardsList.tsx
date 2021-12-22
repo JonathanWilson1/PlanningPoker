@@ -12,50 +12,31 @@ export const ActiveCardsList: FC = () => {
 
   return (
     <section>
-      <Row>
-      <div class="cards-list">
-
-<div class="cardz">
-  <div class="card_image"> <img src="https://i.redd.it/b3esnz5ra34y.jpg" /> </div>
-  <div class="card_title title-white">
-    <p>Card Title</p>
-  </div>
-</div>
-
-  <div class="card 2">
-  <div class="card_image">
-    <img src="https://cdn.blackmilkclothing.com/media/wysiwyg/Wallpapers/PhoneWallpapers_FloralCoral.jpg" />
-    </div>
-  <div class="card_title title-white">
-    <p>Card Title</p>
-  </div>
-</div>
-
-<div class="card 3">
-  <div class="card_image">
-    <img src="https://media.giphy.com/media/10SvWCbt1ytWCc/giphy.gif" />
-  </div>
-  <div class="card_title">
-    <p>Card Title</p>
-  </div>
-</div>
-
-  <div class="card 4">
-  <div class="card_image">
-    <img src="https://media.giphy.com/media/LwIyvaNcnzsD6/giphy.gif" />
-    </div>
-  <div class="card_title title-black">
-    <p>Card Title</p>
-  </div>
-  </div>
-
-</div>
-        {
-          Object.values(socket.roomCards).map(function(user) {
-            return <Col><Card style={style}>{user.userName}-{user.card}</Card></Col>
-          })
-        }
-      </Row>
+      <div className="cardz-list">
+      {
+        Object.values(socket.roomCards)
+        .sort(function(a, b) {
+          if (a.userName < b.userName)
+            return -1;
+          if (a.userName > b.userName)
+            return 1;
+          return 0;
+        })
+        .map(function(user) {
+          return <div className="cardz">
+            <div class="cardz_image">
+              <img src="https://images.pexels.com/photos/1819650/pexels-photo-1819650.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
+            </div>
+            <div class="cardz_title title-white">
+              <p>{user.userName}</p>
+            </div>
+            <div class="cardz_main_title title-white">
+            <p>{user.card}</p>
+            </div>
+          </div>
+        })
+      }
+      </div>
     </section>
   );
 };

@@ -1,16 +1,132 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+
+.cardz-list {
+  z-index: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.cardz {
+  margin: 10px 25px;
+  width: 150px;
+  height: 200px;
+  border-radius: 5px;
+  box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.22);
+  cursor: default;
+  transition: 0.4s;
 }
 
-* {
-  box-sizing: border-box;
+.cardz .cardz_image {
+  width: inherit;
+  height: inherit;
+  border-radius: 10px;
+}
+
+.cardz .cardz_image img {
+  width: inherit;
+  height: inherit;
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+.cardz .cardz_title {
+  text-align: center;
+  border-radius: 0px 0px 40px 40px;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 30px;
+  margin-top: -60px;
+  height: 40px;
+}
+
+.cardz .cardz_main_title {
+  text-align: center;
+  border-radius: 0px 0px 10px 10px;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 60px;
+  margin-top: -170px;
+  height: 40px;
+}
+
+/* .cardz:hover {
+  transform: scale(0.9, 0.9);
+  box-shadow: 5px 5px 30px 15px rgba(0,0,0,0.25),
+    -5px -5px 30px 15px rgba(0,0,0,0.22);
+} */
+
+.title-white {
+  color: white;
+}
+
+.title-black {
+  color: black;
+}
+
+@media all and (max-width: 500px) {
+  .cardz-list {
+    /* On small screens, we are no longer using row direction but column */
+    flex-direction: column;
+  }
+}
+
+/* Selections */
+
+
+.cardz-selection-list {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  overflow: scroll;
+overflow-y: hidden;
+}
+
+.cardz-selection {
+  margin: 10px 25px;
+  width: 100px;
+  height: 150px;
+  border-radius: 5px;
+  /* box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.22); */
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+
+.cardz-selection .cardz_image {
+  width: inherit;
+  height: inherit;
+  border-radius: 10px;
+}
+
+.cardz-selection .cardz_image img {
+  width: inherit;
+  height: inherit;
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+.cardz-selection .cardz_title {
+  text-align: center;
+  border-radius: 0px 0px 40px 40px;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 30px;
+  margin-top: -20px;
+  height: 40px;
+}
+
+.cardz-selection .cardz_main_title {
+  text-align: center;
+  border-radius: 0px 0px 10px 10px;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 60px;
+  margin-top: -170px;
+  height: 40px;
 }
