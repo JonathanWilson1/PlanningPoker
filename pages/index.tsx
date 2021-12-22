@@ -7,6 +7,7 @@ import { Button, Row, Col } from "antd";
 import { Layout } from 'antd';
 const { Header, Footer, Sider, Content } = Layout;
 import "antd/dist/antd.css";
+import styles from '../styles/Home.module.css'
 
 const page: NextPage = () => {
   const ref = useRef<Refreshable>();

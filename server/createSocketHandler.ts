@@ -14,10 +14,10 @@ export async function createSocketHandler(server: Server) {
      */
     function onDisconnecting() {
       // broadcast "bye" message in rooms of which s/he is a member
-      Object.keys(socket.rooms)
+      Array.from(socket.rooms.values())
         .filter(isRoomName)
-        .forEach((roomName) => {
-          onBye(roomName)
+        .forEach(async (roomName) => {
+          await onBye(roomName);
           console.log(
             "[disconnecting] somebody is leaving the room",
             roomName,
@@ -35,10 +35,10 @@ export async function createSocketHandler(server: Server) {
     async function onHello(roomId: string, profile: UserProfileIface) {
       const roomName = getRoomName(roomId);
       socket.join(roomName);
-      onCard(roomId, profile, "");
+      await onCard(roomId, profile, "");
 
       console.log(
-        "somebody joined this session and sent card update",
+        "somebody joined yeaaa this session and sent card update",
         roomId,
         profile,
         "sent from",
@@ -51,12 +51,20 @@ export async function createSocketHandler(server: Server) {
      * @param roomId - room id
      */
     async function onBye(roomId: string) {
-      socket.leave(getRoomName(roomId));
-      database.removeCard(roomId, socket.id);
+      //garbage to get to UI ;)
+      var roomName = ""
+      if (isRoomName(roomId)) {
+        roomName = roomId;
+      } else {
+        roomName = getRoomName(roomId);
+      }
 
-      const roomName = getRoomName(roomId);
+
+      await database.removeCard(roomName, socket.id);
       const roomsCards = await database.allCardsInRoom(roomName);
-      socket.in(getRoomName(roomId)).emit("card-update", roomsCards);
+      server.in(roomName).emit("card-update", roomsCards);
+      //socket.leave(getRoomName(roomId));
+
       console.log(
         "somebody is leaving the room",
         roomId,
@@ -70,10 +78,10 @@ export async function createSocketHandler(server: Server) {
      */
     async function onCard(roomId: string, profile: UserProfileIface, card: string) {
       const roomName = getRoomName(roomId);
-      database.addCard(roomName, socket.id, profile.name, card);
+      await database.addCard(roomName, socket.id, profile.name, card);
 
       const roomsCards = await database.allCardsInRoom(roomName);
-      socket.in(getRoomName(roomId)).emit("card-update", roomsCards);
+      server.in(getRoomName(roomId)).emit("card-update", roomsCards);
 
       console.log(
         "somebody updated a card",

@@ -11,7 +11,7 @@ import UserProfileContext from "../contexts/profile/UserProfileContext";
 import SocketContext from "../contexts/socket/SocketContext";
 import { Card, Button, Row, Col } from "antd";
 
-export const SendTextForm: FC = () => {
+export const CardSelection: FC = () => {
   const socket = useContext(SocketContext);
   const profile = useContext(UserProfileContext);
 
