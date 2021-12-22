@@ -3,7 +3,7 @@ import { UserProfileIface } from "../shared/UserProfileIface";
 import { getRoomName } from "./getRoomName";
 import { isRoomName } from "./isRoomName";
 import Database from "./database";
-import { TextIface } from "../shared/TextIface";
+import { CardInfoIface } from "../shared/CardInfoIface";
 
 export async function createSocketHandler(server: Server) {
   let database = await Database();
@@ -38,7 +38,7 @@ export async function createSocketHandler(server: Server) {
       await onCard(roomId, profile, "");
 
       console.log(
-        "somebody joined yeaaa this session and sent card update",
+        "somebody joined this session and sent card update",
         roomId,
         profile,
         "sent from",

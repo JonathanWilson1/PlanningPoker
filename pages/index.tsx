@@ -18,17 +18,11 @@ const page: NextPage = () => {
 
   return (
     <Layout>
-      <Row type="flex" align="middle">
-        <Col>
-          <div style={{ display: 'inline-flex', justifyContent: 'center', alignItems: 'center'}}>
             <Link href="/new">
               <Button type="primary" style={{ marginLeft: 8 }}>
                     New Game
               </Button>
             </Link>
-          </div>
-        </Col>
-      </Row>
     </Layout>
   );
 };

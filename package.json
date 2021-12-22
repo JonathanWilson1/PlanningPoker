@@ -4,17 +4,17 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm run build:ts",
-    "build:all": "npm run build:ts && npm run build:next",
+    "build": "yarn build:ts",
+    "build:all": "yarn build:ts && npm run build:next",
     "build:ts": "tsc -p tsconfig-server.json",
     "build:next": "next build",
-    "clean": "npm run clean:ts",
-    "clean:all": "npm run clean:ts && npm run clean:next",
+    "clean": "yarn clean:ts",
+    "clean:all": "yarn clean:ts && npm run clean:next",
     "clean:ts": "del-cli ./server/**/*.js ./shared/**/*.js",
     "clean:next": "del-cli ./.next",
     "start": "node index.js",
     "dev": "cross-env NODE_ENV=development APP_ENV=release nodemon",
-    "heroku-postbuild": "npm run build:all"
+    "heroku-postbuild": "yarn build:all"
   },
   "repository": {
     "type": "git",

@@ -1,12 +1,13 @@
-import { FC, useState, useEffect, useMemo } from "react";
+import { FC, useState, useEffect, useMemo, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import { UserProfileIface } from "../../../shared/UserProfileIface";
 import UserProfileContext from "./UserProfileContext";
 
 export const UserProfileProvider: FC = ({ children }) => {
+  const isMounted = useRef(false);
   const [id] = useState<string>(uuidv4());
-  const [ua, setUa] = useState<IUAParser.IResult>(null);
+  const [ua, setUa] = useState<UAParser.IResult>(null);
   const [name, setName] = useState<string>(null);
 
   // fetch user agent and set "ua"
@@ -14,14 +15,13 @@ export const UserProfileProvider: FC = ({ children }) => {
     if (typeof window === "undefined") {
       return;
     }
-    let mounted = true;
+    let isMounted = true;
     fetch("/api/ua").then(async (res) => {
-      if (!mounted || res.status !== 200) {
+      if (!isMounted || res.status !== 200) {
         return;
       }
       setUa(await res.json());
     });
-    return () => (mounted = false);
   }, []);
 
   const data: UserProfileIface = useMemo(

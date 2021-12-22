@@ -3,7 +3,7 @@ import SocketIO, { Socket } from "socket.io-client";
 
 import UserProfileContext from "../profile/UserProfileContext";
 import { UserProfileIface } from "../../../shared/UserProfileIface";
-import { TextIface } from "../../../shared/TextIface";
+import { CardInfoIface } from "../../../shared/CardInfoIface";
 
 import SocketContext from "./SocketContext";
 import { SocketIface } from "./SocketIface";
@@ -13,7 +13,7 @@ const SocketProvider: FC = ({ children }) => {
   const [socket, setSocket] = useState<typeof Socket>(null);
   const [roomId, setRoomId] = useState<string>(null);
   const myProfile = useContext(UserProfileContext);
-  const [roomCards, setRoomCards] = useState<string>([]);
+  const [roomCards, setRoomCards] = useState<Array<CardInfoIface>>([]);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -88,7 +88,7 @@ const SocketProvider: FC = ({ children }) => {
      * A card has been updated
      * @param socketId somebody's socket id
      */
-    function cardUpdate(cards: []) {
+    function cardUpdate(cards: Array<CardInfoIface>) {
       console.log(
         "[received] cardupdate ",
         "cards:",
