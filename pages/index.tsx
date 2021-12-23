@@ -7,9 +7,11 @@ import { Button, Row, Col } from "antd";
 import { Layout } from 'antd';
 const { Header, Footer, Sider, Content } = Layout;
 import "antd/dist/antd.css";
+import { v4 as uuidv4 } from "uuid";
 
 const page: NextPage = () => {
   const ref = useRef<Refreshable>();
+  const uuid = uuidv4();
 
   const handleRefresh = useCallback(
     () => ref.current && ref.current.refresh(),
@@ -18,11 +20,11 @@ const page: NextPage = () => {
 
   return (
     <Layout>
-            <Link href="/new">
-              <Button type="primary" style={{ marginLeft: 8 }}>
-                    New Game
-              </Button>
-            </Link>
+      <Link href={"/rooms/" + uuid}>
+        <Button type="primary" style={{ marginLeft: 8 }}>
+              New Game
+        </Button>
+      </Link>
     </Layout>
   );
 };

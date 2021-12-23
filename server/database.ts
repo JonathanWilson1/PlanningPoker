@@ -10,7 +10,7 @@ async function Database () {
   init();
 
   function init() {
-    db.exec('CREATE TABLE IF NOT EXISTS cards ( socketId TEXT NOT NULL, roomName TEXT NOT NULL, userName TEXT NOT NULL, card TEXT NOT NULL, PRIMARY KEY (`socketId`, `roomId`))');
+    db.exec('CREATE TABLE IF NOT EXISTS cards ( socketId TEXT NOT NULL, roomName TEXT NOT NULL, userName TEXT NOT NULL, card TEXT NOT NULL, PRIMARY KEY (`socketId`, `roomName`))');
     console.log('DB: Table Created');
   }
 
