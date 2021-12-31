@@ -53,27 +53,29 @@ export const JoinRoomForm: FC<IProps> = ({ roomId }) => {
 
   return (
     <section>
-      <p>
-        hello world! {joined ? "you've just joined" : "you are about to join"}{" "}
-        <code>{roomId}</code>.
-      </p>
       {joined ? (
         <section>
-          <p>you can leave this room at any time:</p>
-          <button onClick={handleLeave}>leave</button>
+          <button onClick={handleLeave}>Leave</button>
         </section>
       ) : (
-        <form onSubmit={handleSubmit}>
-          <p>enter your name and hit button to join this room:</p>
-          <input
-            type="text"
-            value={profile?.name || ""}
-            onChange={handleNameChange}
-          />
-          <button onClick={handleJoin} disabled={!joinable}>
-            join
-          </button>
-        </form>
+        <section className="center-container center-text" style={{height: 700}}>
+          <form onSubmit={handleSubmit} className="center">
+              <h1>Join Planning Poker Room</h1>
+              <code>{roomId}</code>
+              <p>Enter your name and hit button to join this room</p>
+
+              <input
+                type="text"
+                value={profile?.name || ""}
+                onChange={handleNameChange}
+                placeholder="Name"
+              />
+              <button onClick={handleJoin} disabled={!joinable}>
+                Join
+              </button>
+          </form>
+        </section>
+
       )}
     </section>
   );

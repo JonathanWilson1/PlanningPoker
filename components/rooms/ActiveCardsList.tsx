@@ -10,7 +10,7 @@ export const ActiveCardsList: FC = () => {
 
   return (
     <section>
-      <div className="cardz-list">
+      <div className="cardz-list border-radius">
       {
         Object.values(socket.roomCards)
         .sort(function(a, b) {
@@ -21,17 +21,15 @@ export const ActiveCardsList: FC = () => {
           return 0;
         })
         .map(function(user) {
-          return <div className="cardz">
-            <div className="cardz_image">
-              <img src="https://images.pexels.com/photos/1819650/pexels-photo-1819650.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
+          return <div className="cardz theme-border center-container border-radius">
+            <div className="cardz_main_title center">
+              {user.card}
             </div>
-            <div className="cardz_title title-white">
-              <p>{user.userName}</p>
-            </div>
-            <div className="cardz_main_title title-white">
-            <p>{user.card}</p>
+            <div className="cardz-name-center">
+              {user.userName}
             </div>
           </div>
+
         })
       }
       </div>

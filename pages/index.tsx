@@ -6,7 +6,7 @@ import { Refreshable } from "../components/Refreshable";
 import { Button, Row, Col } from "antd";
 import { Layout } from 'antd';
 const { Header, Footer, Sider, Content } = Layout;
-import "antd/dist/antd.css";
+// import "antd/dist/antd.css";
 import { v4 as uuidv4 } from "uuid";
 
 const page: NextPage = () => {

@@ -1,132 +1,145 @@
+:root {
+  --main: rgba(51, 170, 51);
+  --main-transparent: rgba(51, 170, 51, .2);
+  --background: #f9f9f9;
+}
+
+body {
+  background-color: white;
+  -webkit-font-smoothing: antialiased;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  padding-bottom: 250px; /* Gap for the static card selection bar at bottom */
+  background-color: var(--background);
+}
+
+input {
+  border-color: var(--main);
+  border-width: 2px;
+  border-style: solid;
+  padding: 10px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 10px;
+}
+
+input:focus {
+    outline: none;
+}
+
+button {
+  border-color: var(--main);
+  border-width: 2px;
+  border-style: solid;
+  padding: 10px;
+  font-weight: bold;
+  font-size: 12px;
+  background: white;
+  border-radius: 10px;
+  color: var(--main);
+  font-weight: bold;
+  transition: all .2s ease-in-out;
+}
+
+button:hover {
+  transform: scale(1.1);
+  background-color: var(--main-transparent);
+}
+
+code {
+  font-size: 18px;
+}
 
 .cardz-list {
-  z-index: 0;
-  width: 100%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   flex-wrap: wrap;
+  margin-top: 60px;
+  padding: 20px;
+  cursor: default;
 }
 
 .cardz {
-  margin: 10px 25px;
-  width: 150px;
-  height: 200px;
-  border-radius: 5px;
-  box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.22);
-  cursor: default;
-  transition: 0.4s;
+  margin: 10px 5px;
+  width: 100px;
+  height: 135px;
+  background: white;
+  flex-shrink: 0;
+  transition: all .2s ease-in-out;
+  padding: 10px;
 }
 
-.cardz .cardz_image {
-  width: inherit;
-  height: inherit;
+.cardz-hover:hover {
+  transform: scale(1.1);
+  background-color: var(--main-transparent);
+}
+
+.border-radius {
   border-radius: 10px;
 }
 
-.cardz .cardz_image img {
-  width: inherit;
-  height: inherit;
-  border-radius: 5px;
-  object-fit: cover;
-}
-
-.cardz .cardz_title {
-  text-align: center;
-  border-radius: 0px 0px 40px 40px;
-  font-family: sans-serif;
-  font-weight: bold;
-  font-size: 30px;
-  margin-top: -60px;
-  height: 40px;
-}
-
-.cardz .cardz_main_title {
-  text-align: center;
-  border-radius: 0px 0px 10px 10px;
-  font-family: sans-serif;
-  font-weight: bold;
-  font-size: 60px;
-  margin-top: -170px;
-  height: 40px;
-}
-
-/* .cardz:hover {
-  transform: scale(0.9, 0.9);
-  box-shadow: 5px 5px 30px 15px rgba(0,0,0,0.25),
-    -5px -5px 30px 15px rgba(0,0,0,0.22);
-} */
-
-.title-white {
-  color: white;
-}
-
-.title-black {
+.cardz-name-center {
   color: black;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  font-weight: bold;
 }
 
-@media all and (max-width: 500px) {
-  .cardz-list {
-    /* On small screens, we are no longer using row direction but column */
-    flex-direction: column;
-  }
+.cardz_main_title {
+  font-weight: bold;
+  font-size: 2rem;
+  color: var(--main);
 }
-
-/* Selections */
-
 
 .cardz-selection-list {
   position: fixed;
-  left: 0;
   bottom: 0;
   width: 100%;
-  z-index: 0;
+  padding-bottom: 20px;
   display: flex;
-  justify-content: center;
-  flex-wrap: nowrap;
+  /* justify-content: center; */
+  align-items: center;
   overflow: scroll;
-overflow-y: hidden;
-}
-
-.cardz-selection {
-  margin: 10px 25px;
-  width: 100px;
-  height: 150px;
-  border-radius: 5px;
-  /* box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.22); */
+  overflow-y: hidden;
   cursor: pointer;
-  transition: 0.4s;
+  left: 0;
+  right: 0;
 }
 
-
-.cardz-selection .cardz_image {
-  width: inherit;
-  height: inherit;
-  border-radius: 10px;
+.cardz-selection-list::before {
+  content: "";
+  width: 20px;
+  height: 1px;
 }
 
-.cardz-selection .cardz_image img {
-  width: inherit;
-  height: inherit;
-  border-radius: 5px;
-  object-fit: cover;
+.cardz-selection-list::after {
+  content: "";
+  width: 90px;
+  height: 1px;
 }
 
-.cardz-selection .cardz_title {
+.theme-border {
+  border-color: var(--main);
+  border-width: 2px;
+  border-style: solid;
+}
+
+.center-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.center {
+  margin:auto;
+  display: flex;
+  flex-direction: column;
+  max-width: 80%;
+}
+
+.center-text {
   text-align: center;
-  border-radius: 0px 0px 40px 40px;
-  font-family: sans-serif;
-  font-weight: bold;
-  font-size: 30px;
-  margin-top: -20px;
-  height: 40px;
-}
-
-.cardz-selection .cardz_main_title {
-  text-align: center;
-  border-radius: 0px 0px 10px 10px;
-  font-family: sans-serif;
-  font-weight: bold;
-  font-size: 60px;
-  margin-top: -170px;
-  height: 40px;
 }
