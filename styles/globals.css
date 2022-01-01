@@ -10,6 +10,8 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   padding-bottom: 250px; /* Gap for the static card selection bar at bottom */
   background-color: var(--background);
+
+  font-size: 16px;
 }
 
 input {
@@ -17,7 +19,6 @@ input {
   border-width: 2px;
   border-style: solid;
   padding: 10px;
-  font-size: 16px;
   font-weight: bold;
   border-radius: 10px;
 }

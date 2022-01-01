@@ -4,6 +4,7 @@ import SocketIO, { Socket } from "socket.io-client";
 import UserProfileContext from "../profile/UserProfileContext";
 import { UserProfileIface } from "../../../shared/UserProfileIface";
 import { CardInfoIface } from "../../../shared/CardInfoIface";
+import { CardStatus } from "../../../shared/CardStatusEnum";
 
 import SocketContext from "./SocketContext";
 import { SocketIface } from "./SocketIface";
@@ -13,7 +14,7 @@ const SocketProvider: FC = ({ children }) => {
   const [socket, setSocket] = useState<typeof Socket>(null);
   const [roomId, setRoomId] = useState<string>(null);
   const myProfile = useContext(UserProfileContext);
-  const [roomCards, setRoomCards] = useState<Array<CardInfoIface>>([]);
+  const [roomCardInfos, setRoomCardInfos] = useState<Array<CardInfoIface>>([]);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -46,56 +47,23 @@ const SocketProvider: FC = ({ children }) => {
       socket.once("reconnect", () => {
         console.log("[reconnected]");
         setSocket(socket);
-        setRoomCards([]);
+        setRoomCardInfos([]);
         join(roomId);
       });
     }
-
-    // /**
-    //  * somebody joined this session and said hello
-    //  * @param profile
-    //  * @param socketId
-    //  */
-    // function hello(profile: UserProfileIface, socketId: string) {
-    //   console.log("[received] hello", profile, "from", socketId);
-    //   const cs = Object.assign({}, roomMembers);
-    //   cs[socketId] = {
-    //     profile,
-    //   };
-    //   setRoomMembers(cs);
-    //   socket.emit("hello-ack", roomId, myProfile);
-    // }
-    //
-    // /**
-    //  * somebody is leaving this session
-    //  * @param socketId somebody's socket id
-    //  */
-    // function bye(socketId: string) {
-    //   console.log(
-    //     "[received] bye from",
-    //     socketId,
-    //     "exists?",
-    //     !!roomMembers[socketId]
-    //   );
-    //   if (roomMembers[socketId]) {
-    //     const cs = Object.assign({}, roomMembers);
-    //     delete cs[socketId];
-    //     setRoomMembers(cs);
-    //   }
-    // }
 
     /**
      * A card has been updated
      * @param socketId somebody's socket id
      */
-    function cardUpdate(cards: Array<CardInfoIface>) {
+    function cardUpdate(cardInfos: Array<CardInfoIface>) {
       console.log(
         "[received] cardupdate ",
         "cards:",
-        cards
+        cardInfos
       );
 
-      setRoomCards(cards);
+      setRoomCardInfos(cardInfos);
       // if (roomMembers[socketId]) {
       //   const cs = Object.assign({}, roomMembers);
       //   delete cs[socketId];
@@ -114,7 +82,7 @@ const SocketProvider: FC = ({ children }) => {
       // socket.off("bye", bye);
       socket.off("card-update", cardUpdate);
     };
-  }, [socket, myProfile, roomId, roomCards]);
+  }, [socket, myProfile, roomId, roomCardInfos]);
 
   const join = useCallback(
     (roomId: string) => {
@@ -122,7 +90,7 @@ const SocketProvider: FC = ({ children }) => {
         return;
       }
       setRoomId(roomId);
-      setRoomCards([]);
+      setRoomCardInfos([]);
       socket.emit("hello", roomId, myProfile);
       console.log("[sent] hello in", roomId);
     },
@@ -134,7 +102,7 @@ const SocketProvider: FC = ({ children }) => {
       socket.emit("bye", roomId);
       console.log("[sent] bye in", roomId);
     }
-    setRoomCards([]);
+    setRoomCardInfos([]);
     setRoomId(null);
   }, [socket, roomId]);
 
@@ -143,8 +111,30 @@ const SocketProvider: FC = ({ children }) => {
       if (!socket || !roomId) {
         return;
       }
-      socket.emit("card", roomId, myProfile, card);
+      socket.emit("card", roomId, myProfile, card, CardStatus.Selected);
       console.log("[sent] card", profile, card);
+    },
+    [socket, roomId]
+  );
+
+  const reveal = useCallback(
+    (profile: UserProfileIface, card: string) => {
+      if (!socket || !roomId) {
+        return;
+      }
+      socket.emit("reveal", roomId);
+      console.log("[sent] reveal", roomId);
+    },
+    [socket, roomId]
+  );
+
+  const reset = useCallback(
+    (profile: UserProfileIface, card: string) => {
+      if (!socket || !roomId) {
+        return;
+      }
+      socket.emit("reset", roomId);
+      console.log("[sent] reset", roomId);
     },
     [socket, roomId]
   );
@@ -152,10 +142,12 @@ const SocketProvider: FC = ({ children }) => {
   const data: SocketIface = Object.freeze({
     roomId,
     socket,
-    roomCards,
+    roomCardInfos,
     join,
     leave,
     card,
+    reveal,
+    reset,
   });
 
   return (

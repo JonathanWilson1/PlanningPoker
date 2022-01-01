@@ -66,7 +66,6 @@ export const JoinRoomForm: FC<IProps> = ({ roomId }) => {
  };
 
  const handleFocus = (event) => {
-   console.log("yeoooooo");
    event.target.select();
  };
 
@@ -90,6 +89,7 @@ export const JoinRoomForm: FC<IProps> = ({ roomId }) => {
           <form onSubmit={handleSubmit} className="center">
               <h1>Join Planning Poker Room</h1>
               <code>{roomId}</code>
+              <br/>
               <p>Enter your name and hit button to join this room</p>
 
               <input

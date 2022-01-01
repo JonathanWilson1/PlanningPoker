@@ -4,6 +4,7 @@ import { getRoomName } from "./getRoomName";
 import { isRoomName } from "./isRoomName";
 import Database from "./database";
 import { CardInfoIface } from "../shared/CardInfoIface";
+import { CardStatus } from "../shared/CardStatusEnum";
 
 export async function createSocketHandler(server: Server) {
   let database = await Database();
@@ -35,7 +36,7 @@ export async function createSocketHandler(server: Server) {
     async function onHello(roomId: string, profile: UserProfileIface) {
       const roomName = getRoomName(roomId);
       socket.join(roomName);
-      await onCard(roomId, profile, "🧐");
+      await onCard(roomId, profile, CardStatus.Waiting, CardStatus.Waiting);
 
       console.log(
         "somebody joined this session and sent card update",
@@ -43,6 +44,38 @@ export async function createSocketHandler(server: Server) {
         profile,
         "sent from",
         socket.id
+      );
+    }
+
+    /**
+     * somebody joined this session and said hello
+     * @param roomId - room id
+     * @param profile - user profile
+     */
+    async function onReveal(roomId: string) {
+      const roomName = getRoomName(roomId);
+      await database.revealAllCardsInRoom(roomName);
+      const roomsCards = await database.allCardsInRoom(roomName);
+      server.in(getRoomName(roomId)).emit("card-update", roomsCards);
+      console.log(
+        "Revealed all cards",
+        roomId
+      );
+    }
+
+    /**
+     * somebody joined this session and said hello
+     * @param roomId - room id
+     * @param profile - user profile
+     */
+    async function onReset(roomId: string) {
+      const roomName = getRoomName(roomId);
+      await database.resetAllCardsInRoom(roomName);
+      const roomsCards = await database.allCardsInRoom(roomName);
+      server.in(getRoomName(roomId)).emit("card-update", roomsCards);
+      console.log(
+        "Reset all cards",
+        roomId
       );
     }
 
@@ -76,9 +109,9 @@ export async function createSocketHandler(server: Server) {
     /**
      * somebody sent card
      */
-    async function onCard(roomId: string, profile: UserProfileIface, card: string) {
+    async function onCard(roomId: string, profile: UserProfileIface, card: string, cardStatus: CardStatus) {
       const roomName = getRoomName(roomId);
-      await database.addCard(roomName, socket.id, profile.name, card);
+      await database.replaceCard(roomName, socket.id, profile.name, card, cardStatus);
 
       const roomsCards = await database.allCardsInRoom(roomName);
       server.in(getRoomName(roomId)).emit("card-update", roomsCards);
@@ -95,6 +128,8 @@ export async function createSocketHandler(server: Server) {
     }
 
     socket.on("disconnecting", onDisconnecting);
+    socket.on("reveal", onReveal);
+    socket.on("reset", onReset);
     socket.on("hello", onHello);
     socket.on("bye", onBye);
     socket.on("card", onCard);

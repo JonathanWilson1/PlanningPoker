@@ -1,6 +1,7 @@
 import sqlite3 from 'sqlite3'
 import { open } from 'sqlite'
 import { CardInfoIface } from "../shared/CardInfoIface";
+import { CardStatus } from "../shared/CardStatusEnum";
 
 async function Database () {
   let db = await open({
@@ -10,12 +11,12 @@ async function Database () {
   init();
 
   function init() {
-    db.exec('CREATE TABLE IF NOT EXISTS cards ( socketId TEXT NOT NULL, roomName TEXT NOT NULL, userName TEXT NOT NULL, card TEXT NOT NULL, PRIMARY KEY (`socketId`, `roomName`))');
+    db.exec('CREATE TABLE IF NOT EXISTS cards ( socketId TEXT NOT NULL, roomName TEXT NOT NULL, userName TEXT NOT NULL, card TEXT NOT NULL, cardStatus TEXT NOT NULL, PRIMARY KEY (`socketId`, `roomName`))');
     console.log('DB: Table Created');
   }
 
-  async function addCard(roomName: string, socketId: string, userName: string, card: string) {
-    await db.run('REPLACE INTO cards VALUES (?, ?, ?, ?)', socketId, roomName, userName, card);
+  async function replaceCard(roomName: string, socketId: string, userName: string, card: string, cardStatus: CardStatus) {
+    await db.run('REPLACE INTO cards VALUES (?, ?, ?, ?, ?)', socketId, roomName, userName, card, cardStatus);
     console.log('DB: Added/Updated Card');
   }
 
@@ -29,10 +30,22 @@ async function Database () {
     return result;
   }
 
+  async function resetAllCardsInRoom(roomName: string){
+    await db.run('UPDATE cards SET cardStatus = ?, card = ? WHERE roomName = ?', CardStatus.Waiting, CardStatus.Waiting, roomName);
+    console.log('DB: UPDATE Card to waiting', CardStatus.Waiting);
+  }
+
+  async function revealAllCardsInRoom(roomName: string){
+    await db.run('UPDATE cards SET cardStatus = ? WHERE roomName = ?', CardStatus.Revealed, roomName);
+    console.log('DB: UPDATE Card to revealed', CardStatus.Revealed);
+  }
+
   return Object.freeze({
-    addCard,
+    replaceCard,
     removeCard,
-    allCardsInRoom
+    allCardsInRoom,
+    resetAllCardsInRoom,
+    revealAllCardsInRoom
   });
 }
 
