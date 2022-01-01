@@ -117,8 +117,7 @@ const SocketProvider: FC = ({ children }) => {
     [socket, roomId]
   );
 
-  const reveal = useCallback(
-    (profile: UserProfileIface, card: string) => {
+  const reveal = useCallback(() => {
       if (!socket || !roomId) {
         return;
       }
@@ -128,8 +127,7 @@ const SocketProvider: FC = ({ children }) => {
     [socket, roomId]
   );
 
-  const reset = useCallback(
-    (profile: UserProfileIface, card: string) => {
+  const reset = useCallback(() => {
       if (!socket || !roomId) {
         return;
       }

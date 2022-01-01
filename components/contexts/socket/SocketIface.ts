@@ -11,6 +11,6 @@ export interface SocketIface {
   join(roomId: string): void;
   leave(): void;
   card(profile: UserProfileIface, card: string): void;
-  reveal(roomId: string): void;
-  reset(roomId: string): void;
+  reveal(): void;
+  reset(): void;
 }
