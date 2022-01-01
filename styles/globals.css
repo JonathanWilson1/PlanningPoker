@@ -17,7 +17,7 @@ input {
   border-width: 2px;
   border-style: solid;
   padding: 10px;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: bold;
   border-radius: 10px;
 }
@@ -38,6 +38,10 @@ button {
   color: var(--main);
   font-weight: bold;
   transition: all .2s ease-in-out;
+}
+
+::selection {
+  background: var(--main-transparent);
 }
 
 button:hover {
@@ -113,7 +117,7 @@ code {
   font-weight: bold;
 }
 
-.cardz_main_title {
+.cardz-main-title {
   font-weight: bold;
   font-size: 2rem;
   color: var(--main);
@@ -146,6 +150,13 @@ code {
   align-items: center;
 }
 
+.center-container-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 .center {
   margin:auto;
   display: flex;
@@ -174,4 +185,12 @@ code {
   position: absolute;
   margin: 10px;
   right: 0;
+}
+
+#active-cardz-section {
+  padding-bottom: 300px;
+}
+
+#reset-button {
+  margin-left: 10px;
 }

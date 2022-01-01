@@ -25,7 +25,7 @@ export const CardSelection: FC = () => {
       {[0,1,2,3,5, 8, 13, 21, 34, 55, 89, 100, 2001].map(function(object, i){
       return <div className="cardz cardz-hover theme-border center-container border-radius" onClick={() => selectNumber(object)}>
 
-        <div className="cardz_main_title center">
+        <div className="cardz-main-title center">
         {object}
         </div>
       </div>
