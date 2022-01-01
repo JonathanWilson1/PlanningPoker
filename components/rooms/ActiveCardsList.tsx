@@ -2,7 +2,6 @@ import { FC, useContext } from "react";
 
 import UserProfileContext from "../contexts/profile/UserProfileContext";
 import SocketContext from "../contexts/socket/SocketContext";
-import { Card, Button, Row, Col } from "antd";
 
 export const ActiveCardsList: FC = () => {
   const profile = useContext(UserProfileContext);
@@ -29,7 +28,6 @@ export const ActiveCardsList: FC = () => {
               {user.userName}
             </div>
           </div>
-
         })
       }
       </div>

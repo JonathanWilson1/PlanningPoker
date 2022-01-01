@@ -45,8 +45,29 @@ button:hover {
   background-color: var(--main-transparent);
 }
 
+.ant-modal-close:hover {
+  background-color: var(--main-transparent);
+  transform: none;
+}
+
 code {
   font-size: 18px;
+}
+
+.ant-modal-content {
+  border-radius: 10px;
+}
+
+.ant-modal-header {
+  border-radius: 10px;
+  margin-bottom: 30px;
+  border: none;
+}
+
+.ant-modal-footer {
+  border-radius: 10px;
+  margin-top: 30px;
+  border: none;
 }
 
 .cardz-list {
@@ -66,6 +87,11 @@ code {
   flex-shrink: 0;
   transition: all .2s ease-in-out;
   padding: 10px;
+}
+
+.cardz-selection-list:selection {
+  color: transparent;
+  background: transparent;
 }
 
 .cardz-hover:hover {
@@ -97,27 +123,14 @@ code {
   position: fixed;
   bottom: 0;
   width: 100%;
-  padding-bottom: 20px;
+  padding-bottom: 5px;
   display: flex;
-  /* justify-content: center; */
   align-items: center;
   overflow: scroll;
   overflow-y: hidden;
   cursor: pointer;
   left: 0;
   right: 0;
-}
-
-.cardz-selection-list::before {
-  content: "";
-  width: 20px;
-  height: 1px;
-}
-
-.cardz-selection-list::after {
-  content: "";
-  width: 90px;
-  height: 1px;
 }
 
 .theme-border {
@@ -137,9 +150,28 @@ code {
   margin:auto;
   display: flex;
   flex-direction: column;
-  max-width: 80%;
+  max-width: 100%;
 }
 
 .center-text {
   text-align: center;
+}
+
+#join-input {
+  width: 400px;
+}
+
+#join-button {
+  width: 400px;
+  margin-top: 10px;
+}
+
+#leave-button {
+  margin: 10px;
+}
+
+#invite-button {
+  position: absolute;
+  margin: 10px;
+  right: 0;
 }
