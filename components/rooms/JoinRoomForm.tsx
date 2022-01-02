@@ -90,7 +90,7 @@ export const JoinRoomForm: FC<IProps> = ({ roomId }) => {
               <h1>Join Planning Poker Room</h1>
               <code>{roomId}</code>
               <br/>
-              <p>Enter your name and hit button to join this room</p>
+              <p>Enter your name and hit the button to join this room</p>
 
               <input
                 type="text"

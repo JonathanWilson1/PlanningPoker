@@ -10,8 +10,11 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   padding-bottom: 250px; /* Gap for the static card selection bar at bottom */
   background-color: var(--background);
-
   font-size: 16px;
+}
+
+html, body, #app, #app>div {
+  height: 100%
 }
 
 input {
@@ -21,6 +24,14 @@ input {
   padding: 10px;
   font-weight: bold;
   border-radius: 10px;
+}
+
+a {
+  color: var(--main);
+}
+
+a:hover {
+  color: var(--main-transparent);
 }
 
 input:focus {
@@ -169,6 +180,10 @@ code {
   text-align: center;
 }
 
+.left-text {
+  text-align: left;
+}
+
 #join-input {
   width: 400px;
 }
@@ -194,4 +209,13 @@ code {
 
 #reset-button {
   margin-left: 10px;
+}
+
+#create-button {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+#index-banner-image {
+  border-radius: 20px;
 }

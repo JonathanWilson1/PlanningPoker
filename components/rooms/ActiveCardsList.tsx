@@ -10,7 +10,6 @@ export const ActiveCardsList: FC = () => {
   const socket = useContext(SocketContext);
 
   const renderSwitch = (cardInfo) => {
-    console.log("Card", cardInfo.cardStatus)
     switch(cardInfo.cardStatus) {
       case CardStatus.Waiting:
         return CardStatus.Waiting;
