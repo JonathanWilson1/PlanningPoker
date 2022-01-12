@@ -129,6 +129,10 @@ Jonathan Wilson - [@JohnyJWilson](https://twitter.com/JohnyJWilson) - [LinkedIn]
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+## Acknowledgements
+
+[Project Starting point](https://github.com/arch-inc/nextjs-socketio-chat-example)
+
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
