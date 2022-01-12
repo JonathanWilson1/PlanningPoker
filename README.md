@@ -7,7 +7,6 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[![Heroku](http://heroku-badge.herokuapp.com/?app=scurmpoker&root=projects.html)]
 
 <!-- PROJECT LOGO -->
 <br />
@@ -64,13 +63,13 @@ This is an example of how to list things you need to use the software and how to
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-* ```sh
+* Start dev
+```sh
 yarn dev
 ```
 
-Clearing the DB on each restart is handy too
-
-* ```sh
+* Clearing the DB on each restart is handy too
+```sh
 rm Database.db | yarn dev
 ```
 
@@ -124,8 +123,8 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 Jonathan Wilson - [@JohnyJWilson](https://twitter.com/JohnyJWilson) - [LinkedIn](https://www.linkedin.com/in/jonathanwilson0/)
 
-Project Link: [https://github.com/JonathanWilson1/PlanningPoker](https://github.com/JonathanWilson1/PlanningPoker)
-Live Link: [https://scurmpoker.herokuapp.com](https://scurmpoker.herokuapp.com)
+* Project Link: [https://github.com/JonathanWilson1/PlanningPoker](https://github.com/JonathanWilson1/PlanningPoker)
+* Live Link: [https://scurmpoker.herokuapp.com](https://scurmpoker.herokuapp.com)
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
