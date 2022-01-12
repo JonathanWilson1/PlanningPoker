@@ -65,10 +65,6 @@ export const JoinRoomForm: FC<IProps> = ({ roomId }) => {
    setIsModalVisible(false);
  };
 
- const handleFocus = (event) => {
-   event.target.select();
- };
-
   return (
     <section>
       {joined ? (
@@ -81,7 +77,7 @@ export const JoinRoomForm: FC<IProps> = ({ roomId }) => {
                 Copy invitation link
               </button>,
             ]}>
-            <code onFocus={handleFocus}>{window.location.href}</code>
+            <code>{window.location.href}</code>
           </Modal>
         </section>
       ) : (
