@@ -14,7 +14,7 @@
   <h3 align="center">Planning Poker</h3>
 
   <p align="center">
-    Simple planing poker. Vote, Reveal, Reset.
+    Simple planning poker. Vote, Reveal, Reset.
     <br />
     <a href="https://scurmpoker.herokuapp.com"><strong>Try it out on Heroku »</strong></a>
   </p>
