@@ -90,8 +90,7 @@ code {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  margin-top: 60px;
-  padding: 20px;
+  padding: 10px;
   cursor: default;
 }
 
